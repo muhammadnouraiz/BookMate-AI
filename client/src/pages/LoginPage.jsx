@@ -15,16 +15,19 @@ export default function LoginPage() {
     if (ok) navigate('/chat');
   };
 
-  const inputClass = 'px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary';
-  const labelClass = 'flex flex-col gap-1.5 text-sm text-gray-500';
+  const inputClass = 'px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition';
+  const labelClass = 'flex flex-col gap-1.5 text-sm font-medium text-gray-500';
 
   return (
-    <div className="flex justify-center px-5 py-16">
+    <div className="flex justify-center px-5 py-20 bg-gray-50/50 min-h-[calc(100vh-60px)]">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-3.5 w-full max-w-sm bg-white border border-gray-200 rounded-xl p-8"
+        className="flex flex-col gap-4 w-full max-w-sm bg-white border border-gray-100 rounded-2xl shadow-sm p-8"
       >
-        <h1 className="text-xl font-bold m-0 mb-2">Log in</h1>
+        <div className="mb-1">
+          <h1 className="text-xl font-bold text-gray-900 m-0">Welcome back</h1>
+          <p className="text-sm text-gray-400 mt-1">Log in to manage your appointments</p>
+        </div>
         <label className={labelClass}>
           Email
           <input type="email" name="email" value={form.email} onChange={handleChange} required className={inputClass} />
@@ -37,12 +40,12 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2.5 font-semibold rounded-lg bg-primary text-white hover:bg-primary-hover disabled:opacity-60"
+          className="px-4 py-2.5 font-semibold rounded-lg bg-primary text-white hover:bg-primary-hover transition disabled:opacity-60"
         >
           {loading ? 'Logging in…' : 'Log in'}
         </button>
-        <p className="text-sm text-gray-500 text-center m-0">
-          No account? <Link to="/signup" className="text-primary">Sign up</Link>
+        <p className="text-sm text-gray-400 text-center m-0">
+          No account? <Link to="/signup" className="text-primary font-medium">Sign up</Link>
         </p>
       </form>
     </div>

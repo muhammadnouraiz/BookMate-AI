@@ -7,6 +7,12 @@ const appointmentService = require('./appointment.service');
 // matches "ambiguous input triggers fallback" from the intended flow.
 const MAX_STUCK_ATTEMPTS = 1;
 
+// Named intent patterns — pulled out of the flow logic below so the state
+// machine reads clearly and these can be tuned in one place.
+const RESTART_PATTERN = /^\s*(start over|restart)\b/i;
+const CONFIRM_YES_PATTERN = /^\s*(yes|yeah|yep|confirm|sure|ok(ay)?)\b/i;
+const CONFIRM_NO_PATTERN = /^\s*(no|nope|cancel)\b/i;
+
 async function getOrCreateSession(userId, sessionId) {
   if (sessionId) {
     const result = await pool.query(
@@ -83,7 +89,7 @@ async function handleMessage({ userId, sessionId, text }) {
 
   const { stage, bookingData } = getLastBotState(session.messages);
 
-  if (/^\s*(start over|restart)\b/i.test(text)) {
+  if (RESTART_PATTERN.test(text)) {
     const botMessage = buildBotMessage(
       "No problem — let's start fresh. What service would you like to book?",
       'collecting',
@@ -102,7 +108,7 @@ async function handleMessage({ userId, sessionId, text }) {
       bookingData
     );
   } else if (stage === 'awaiting_confirmation') {
-    if (/^\s*(yes|yeah|yep|confirm|sure|ok(ay)?)\b/i.test(text)) {
+    if (CONFIRM_YES_PATTERN.test(text)) {
       const { confirmationText } = await appointmentService.bookAppointment({
         userId,
         chatSessionId: session.id,
@@ -112,7 +118,7 @@ async function handleMessage({ userId, sessionId, text }) {
         appointmentTime: bookingData.appointmentTime,
       });
       botMessage = buildBotMessage(confirmationText, 'collecting', {});
-    } else if (/^\s*(no|nope|cancel)\b/i.test(text)) {
+    } else if (CONFIRM_NO_PATTERN.test(text)) {
       botMessage = buildBotMessage(
         "Okay, let's adjust. What would you like to change?",
         'collecting',
