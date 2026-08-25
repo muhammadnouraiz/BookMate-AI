@@ -46,6 +46,7 @@ async function callMistral(conversationHistory, knownData) {
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const EXTRACTION_TEMPERATURE = 0.2; // low temperature: we want consistent extraction, not creative variation
 
   try {
     const response = await fetch(env.mistralApiUrl, {
@@ -57,7 +58,7 @@ async function callMistral(conversationHistory, knownData) {
       body: JSON.stringify({
         model: env.mistralModel,
         messages,
-        temperature: 0.2,
+        temperature: EXTRACTION_TEMPERATURE,
         response_format: { type: 'json_object' },
       }),
       signal: controller.signal,
