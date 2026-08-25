@@ -17,12 +17,19 @@ export default function BookingForm({ bookingData = {}, onSubmit, onCancel, subm
     onSubmit(form);
   };
 
-  const inputClass = 'px-3 py-2 border border-gray-200 rounded-md text-sm bg-white';
-  const labelClass = 'flex flex-col gap-1 text-xs text-gray-500';
+  const inputClass =
+    'px-3 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition';
+  const labelClass = 'flex flex-col gap-1.5 text-xs font-medium text-gray-500';
 
   return (
-    <form className="flex flex-col gap-3 max-w-[90%] bg-gray-50 border border-gray-200 rounded-xl p-4" onSubmit={handleSubmit}>
-      <p className="font-semibold text-sm m-0">Let's finish booking your appointment</p>
+    <form
+      className="msg-enter flex flex-col gap-3.5 max-w-[92%] bg-primary-light/40 border border-primary/15 rounded-2xl p-5"
+      onSubmit={handleSubmit}
+    >
+      <p className="font-semibold text-sm text-gray-800 m-0 flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
+        Let's finish booking your appointment
+      </p>
 
       <label className={labelClass}>
         Service
@@ -39,21 +46,31 @@ export default function BookingForm({ bookingData = {}, onSubmit, onCancel, subm
         </select>
       </label>
 
-      <label className={labelClass}>
-        Date
-        <input type="date" name="appointmentDate" value={form.appointmentDate} onChange={handleChange} required className={inputClass} />
-      </label>
-
-      <label className={labelClass}>
-        Time
-        <input type="time" name="appointmentTime" value={form.appointmentTime} onChange={handleChange} required className={inputClass} />
-      </label>
+      <div className="grid grid-cols-2 gap-3">
+        <label className={labelClass}>
+          Date
+          <input type="date" name="appointmentDate" value={form.appointmentDate} onChange={handleChange} required className={inputClass} />
+        </label>
+        <label className={labelClass}>
+          Time
+          <input type="time" name="appointmentTime" value={form.appointmentTime} onChange={handleChange} required className={inputClass} />
+        </label>
+      </div>
 
       <div className="flex justify-end gap-2 mt-1">
-        <button type="button" onClick={onCancel} disabled={submitting} className="px-4 py-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 disabled:opacity-60">
+        <button
+          type="button"
+          onClick={onCancel}
+          disabled={submitting}
+          className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-500 hover:bg-white transition disabled:opacity-60"
+        >
           Cancel
         </button>
-        <button type="submit" disabled={submitting} className="px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary-hover disabled:opacity-60">
+        <button
+          type="submit"
+          disabled={submitting}
+          className="px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary-hover transition disabled:opacity-60"
+        >
           {submitting ? 'Booking…' : 'Confirm booking'}
         </button>
       </div>

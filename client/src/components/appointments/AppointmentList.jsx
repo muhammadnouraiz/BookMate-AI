@@ -1,7 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import * as appointmentsApi from '../../api/appointments.api';
 import AppointmentCard from './AppointmentCard';
-import Loader from '../common/Loader';
+
+function SkeletonCard() {
+  return (
+    <div className="flex items-center justify-between bg-white border border-gray-100 rounded-2xl p-4">
+      <div className="flex flex-col gap-2">
+        <div className="skeleton h-4 w-32 rounded" />
+        <div className="skeleton h-3 w-24 rounded" />
+      </div>
+      <div className="skeleton h-6 w-16 rounded-full" />
+    </div>
+  );
+}
 
 export default function AppointmentList() {
   const [appointments, setAppointments] = useState([]);
@@ -34,10 +45,23 @@ export default function AppointmentList() {
     }
   };
 
-  if (loading) return <Loader label="Loading your appointments…" />;
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-3">
+        {[1, 2, 3].map((i) => <SkeletonCard key={i} />)}
+      </div>
+    );
+  }
+
   if (error) return <p className="text-red-600 text-sm">{error}</p>;
-  if (appointments.length === 0)
-    return <p className="text-gray-500">No appointments yet — book one from the chat.</p>;
+
+  if (appointments.length === 0) {
+    return (
+      <div className="text-center py-16 bg-white border border-gray-100 rounded-2xl">
+        <p className="text-gray-400 text-sm">No appointments yet — book one from the chat.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-3">
