@@ -10,7 +10,7 @@ router.use(requireAuth); // every chat route requires a logged-in user
 
 const sendMessageValidators = [
   body('text').trim().notEmpty().withMessage('Message text is required'),
-  body('sessionId').optional().isUUID().withMessage('sessionId must be a valid UUID'),
+  body('sessionId').optional({ nullable: true }).isUUID().withMessage('sessionId must be a valid UUID'),
 ];
 
 const getMessagesValidators = [

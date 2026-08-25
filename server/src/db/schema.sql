@@ -29,6 +29,8 @@ CREATE TABLE IF NOT EXISTS appointments (
     user_id           UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     chat_session_id   UUID REFERENCES chat_sessions(id) ON DELETE SET NULL,
     service_name      VARCHAR(150) NOT NULL,
+    city              VARCHAR(50),
+    doctor_name       VARCHAR(120),
     appointment_date  DATE NOT NULL,
     appointment_time  TIME NOT NULL,
     status            VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'cancelled')),

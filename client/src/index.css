@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #3454d1;
+  --color-primary-hover: #2a44ab;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.loader-spinner {
+  animation: spin 0.7s linear infinite;
+}

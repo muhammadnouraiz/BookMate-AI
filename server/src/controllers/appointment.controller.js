@@ -1,18 +1,24 @@
 const appointmentService = require('../services/appointment.service');
+const chatService = require('../services/chat.service');
 
-// Direct creation path for the fallback structured form (bypasses AI entirely).
+// Fallback-form submission path — mirrors the chat "yes" flow via the same
+// appointmentService.bookAppointment, so both paths stay in sync.
 async function createAppointment(req, res, next) {
   try {
-    const { serviceName, appointmentDate, appointmentTime, notes, chatSessionId } = req.body;
-    const appointment = await appointmentService.createAppointment({
+    const { serviceName, city, appointmentDate, appointmentTime, chatSessionId } = req.body;
+
+    const { appointment, doctor, confirmationText } = await appointmentService.bookAppointment({
       userId: req.user.id,
       chatSessionId: chatSessionId || null,
       serviceName,
+      city,
       appointmentDate,
       appointmentTime,
-      notes,
     });
-    res.status(201).json({ appointment });
+
+    await chatService.appendBookingConfirmationMessage(chatSessionId, confirmationText);
+
+    res.status(201).json({ appointment, doctor });
   } catch (err) {
     next(err);
   }
