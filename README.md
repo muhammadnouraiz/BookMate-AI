@@ -2,8 +2,8 @@
 
 A full-stack web app with a conversational chatbot that books appointments using natural language, built as a Full Stack Developer technical assessment.
 
-**Live demo:** https://bookmate-ai-client.vercel.app
-**Backend API:** https://bookmate-ai-server.vercel.app
+**Live demo:** https://bookmate-ai-client-two.vercel.app/
+**Backend API:** https://bookmate-ai-server.vercel.app/
 **Repository:** https://github.com/muhammadnouraiz/BookMate-AI
 
 ---
